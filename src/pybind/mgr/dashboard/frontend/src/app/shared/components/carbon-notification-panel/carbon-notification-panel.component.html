@@ -29,12 +29,34 @@
 
     <div class="cds--side-panel__content">
       <!-- Empty state -->
-      <div class="empty-state" *ngIf="true">
+      <div class="empty-state" *ngIf="notifications.length === 0">
         <svg cdsIcon="notification" size="32"></svg>
         <p>No notifications to display</p>
       </div>
 
-      <!-- TODO: Add notification list here -->
+      <!-- Notifications list -->
+      <div class="notifications-list" *ngIf="notifications.length > 0">
+        <div class="notification-item" *ngFor="let notification of notifications; let i = index">
+          <div class="notification-icon">
+            <svg [cdsIcon]="getNotificationIcon(notification.type)" size="20"></svg>
+          </div>
+          <div class="notification-content">
+            <div class="notification-header">
+              <h3 class="notification-title">{{ notification.title }}</h3>
+              <button class="notification-dismiss" (click)="dismiss(i)">
+                <svg cdsIcon="close" size="16"></svg>
+              </button>
+            </div>
+            <p class="notification-message" [innerHTML]="notification.message"></p>
+            <div class="notification-meta">
+              <span class="notification-time">{{ notification.timestamp | date:'medium' }}</span>
+              <span class="notification-application" *ngIf="notification.application">
+                {{ notification.application }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div> 
