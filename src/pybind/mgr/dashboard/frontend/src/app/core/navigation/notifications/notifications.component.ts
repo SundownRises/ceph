@@ -6,6 +6,7 @@ import { Icons } from '~/app/shared/enum/icons.enum';
 import { CdNotification } from '~/app/shared/models/cd-notification';
 import { NotificationService } from '~/app/shared/services/notification.service';
 import { SummaryService } from '~/app/shared/services/summary.service';
+import { CarbonNotificationService } from '~/app/shared/services/carbon-notification.service';
 
 @Component({
   selector: 'cd-notifications',
@@ -20,7 +21,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   constructor(
     public notificationService: NotificationService,
-    private summaryService: SummaryService
+    private summaryService: SummaryService,
+    private carbonNotificationService: CarbonNotificationService
   ) {}
 
   ngOnInit() {
@@ -39,5 +41,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  toggleNotifications() {
+    this.notificationService.sidebarSubject.next(false);
+  }
+
+  toggleCarbonNotifications() {
+    this.carbonNotificationService.toggleCarbonSidebar();
   }
 }

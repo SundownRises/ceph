@@ -1,0 +1,40 @@
+<div class="cds--side-panel" [class.active]="isOpen">
+  <header class="cds--side-panel__header">
+    <h2 class="cds--side-panel__title">
+      <svg cdsIcon="notification" size="20"></svg>
+      Notifications
+    </h2>
+    <button class="cds--side-panel__close" (click)="close()">
+      <svg cdsIcon="close" size="20"></svg>
+    </button>
+  </header>
+
+  <div class="cds--side-panel__body">
+    <div class="cds--side-panel__controls">
+      <ibm-toggle
+        [checked]="doNotDisturb"
+        (change)="toggleDoNotDisturb()"
+        labelText="Do not disturb">
+      </ibm-toggle>
+
+      <button
+        cdsButton="ghost"
+        size="sm"
+        class="dismiss-all"
+        (click)="dismissAll()">
+        <svg cdsIcon="trash-can" size="20" class="cds--btn__icon"></svg>
+        Dismiss all
+      </button>
+    </div>
+
+    <div class="cds--side-panel__content">
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="true">
+        <svg cdsIcon="notification" size="32"></svg>
+        <p>No notifications to display</p>
+      </div>
+
+      <!-- TODO: Add notification list here -->
+    </div>
+  </div>
+</div> 

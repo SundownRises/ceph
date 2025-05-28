@@ -25,3 +25,48 @@ a {
     border-color: vv.$primary-500;
   }
 }
+
+.notification-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  position: relative;
+  text-decoration: none;
+  height: 40px;
+  width: 40px;
+
+  &:hover {
+    color: var(--cds-text-primary);
+    background-color: var(--cds-layer-hover);
+  }
+
+  &.running {
+    color: var(--cds-support-info);
+  }
+
+  .dot {
+    background-color: var(--cds-support-error);
+    border-radius: 50%;
+    height: 6px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 6px;
+  }
+}
+
+.carbon-notifications {
+  border-left: 1px solid var(--cds-border-subtle);
+}

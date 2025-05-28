@@ -28,8 +28,14 @@ cds-header-item {
   width: 500px;
 }
 
+.notification-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
 .cluster-switcher {
-  margin-left: 6rem;
+  margin-left: 2rem;
 }
 
 ::ng-deep .cds--header__menu-title[aria-expanded='true'] + .cds--header__menu {

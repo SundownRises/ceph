@@ -35,7 +35,8 @@ import {
   DropdownModule,
   SelectModule,
   ComboBoxModule,
-  ProgressIndicatorModule
+  ProgressIndicatorModule,
+  ToggleModule
 } from 'carbon-components-angular';
 
 import { MotdComponent } from '~/app/shared/components/motd/motd.component';
@@ -80,6 +81,7 @@ import { HelpTextComponent } from './help-text/help-text.component';
 import { FormAdvancedFieldsetComponent } from './form-advanced-fieldset/form-advanced-fieldset.component';
 import { UpgradableComponent } from './upgradable/upgradable.component';
 import { ProgressComponent } from './progress/progress.component';
+import { CarbonNotificationPanelComponent } from './carbon-notification-panel/carbon-notification-panel.component';
 
 // Icons
 import InfoIcon from '@carbon/icons/es/information/16';
@@ -122,6 +124,7 @@ import CopyIcon from '@carbon/icons/es/copy/32';
     SelectModule,
     ComboBoxModule,
     ProgressIndicatorModule,
+    ToggleModule,
     BaseChartDirective
   ],
   declarations: [
@@ -164,7 +167,8 @@ import CopyIcon from '@carbon/icons/es/copy/32';
     HelpTextComponent,
     FormAdvancedFieldsetComponent,
     UpgradableComponent,
-    ProgressComponent
+    ProgressComponent,
+    CarbonNotificationPanelComponent
   ],
   providers: [provideCharts(withDefaultRegisterables())],
   exports: [
@@ -203,7 +207,8 @@ import CopyIcon from '@carbon/icons/es/copy/32';
     HelpTextComponent,
     FormAdvancedFieldsetComponent,
     UpgradableComponent,
-    ProgressComponent
+    ProgressComponent,
+    CarbonNotificationPanelComponent
   ]
 })
 export class ComponentsModule {
