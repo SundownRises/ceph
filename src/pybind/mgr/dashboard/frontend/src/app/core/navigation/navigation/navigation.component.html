@@ -13,10 +13,6 @@
                    data-testid="main-menu-toggler"
                    (selected)="showMenuSidebar = !showMenuSidebar"></cds-hamburger>
 
-    <!-- Notifications -->
-    <div class="notification-wrapper">
-      <cd-notifications></cd-notifications>
-    </div>
 
     <!-- ************************* -->
     <!-- CLUSTER SWITCHER TEMPLATE -->
@@ -39,13 +35,25 @@
       <cds-header-navigation>
         <cd-language-selector class="d-flex"></cd-language-selector>
       </cds-header-navigation>
+
+    <!-- Notifications -->
+    <div class="notification-wrapper">
+      <cd-notifications></cd-notifications>
+      <cd-carbon-notification-panel></cd-carbon-notification-panel>
+    </div>
+
+      <!-- Help icon -->
       <div class="cds--btn cds--btn--icon-only cds--header__action">
         <cd-dashboard-help></cd-dashboard-help>
       </div>
+
+      <!-- Administration -->
       <div class="cds--btn cds--btn--icon-only cds--header__action"
            *ngIf="permissions.user.read">
         <cd-administration></cd-administration>
       </div>
+
+      <!-- Identity -->
       <div class="cds--btn cds--btn--icon-only cds--header__action">
         <cd-identity></cd-identity>
       </div>

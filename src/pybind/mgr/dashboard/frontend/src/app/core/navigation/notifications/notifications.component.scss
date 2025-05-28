@@ -36,7 +36,7 @@ a {
 .notification-btn {
   background: none;
   border: none;
-  color: inherit;
+  color: #ffffff;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -47,9 +47,17 @@ a {
   height: 40px;
   width: 40px;
 
+  svg {
+    fill: #ffffff;
+  }
+
   &:hover {
     color: var(--cds-text-primary);
     background-color: var(--cds-layer-hover);
+
+    svg {
+      fill: var(--cds-text-primary);
+    }
   }
 
   &.running {
