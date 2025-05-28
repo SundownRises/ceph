@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import _ from 'lodash';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { NotificationType } from '../enum/notification-type.enum';
 import { CdNotification, CdNotificationConfig } from '../models/cd-notification';
@@ -21,7 +21,8 @@ export class NotificationService {
   data$ = this.dataSource.asObservable();
 
   // Sidebar observable
-  sidebarSubject = new Subject();
+  sidebarSubject = new BehaviorSubject<boolean>(false);
+  sidebar$ = this.sidebarSubject.asObservable();
 
   private queued: CdNotificationConfig[] = [];
   private queuedTimeoutId: number;
@@ -233,5 +234,10 @@ export class NotificationService {
 
   toggleSidebar(forceClose = false) {
     this.sidebarSubject.next(forceClose);
+  }
+
+  // Get current sidebar state
+  isSidebarOpen(): boolean {
+    return this.sidebarSubject.getValue();
   }
 }

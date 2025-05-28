@@ -1,5 +1,5 @@
 <div class="notification-container">
-  <!-- Existing notification trigger -->
+  <!-- Single notification button -->
   <button type="button"
           class="notification-btn"
           i18n-title
@@ -15,17 +15,8 @@
     <span class="d-md-none"
           i18n>Tasks and Notifications</span>
   </button>
-
-  <!-- Carbon notification trigger -->
-  <button type="button"
-          class="notification-btn carbon-notifications"
-          i18n-title
-          title="Carbon Notifications"
-          (click)="toggleCarbonNotifications()">
-    <svg cdsIcon="notification"
-         size="20"
-         title="carbon-notification"></svg>
-  </button>
 </div>
 
-<cd-carbon-notification-panel></cd-carbon-notification-panel>
+<!-- Conditionally render panels -->
+<cd-notifications-sidebar *ngIf="!useCarbonPanel"></cd-notifications-sidebar>
+<cd-carbon-notification-panel *ngIf="useCarbonPanel"></cd-carbon-notification-panel>

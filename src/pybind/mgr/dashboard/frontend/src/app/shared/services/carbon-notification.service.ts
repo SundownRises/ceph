@@ -12,7 +12,8 @@ export class CarbonNotificationService {
   doNotDisturb$ = this.doNotDisturbSubject.asObservable();
 
   toggleCarbonSidebar() {
-    this.isOpenSubject.next(!this.isOpenSubject.value);
+    const currentState = this.isOpenSubject.getValue();
+    this.isOpenSubject.next(!currentState);
   }
 
   closeCarbonSidebar() {
@@ -20,6 +21,7 @@ export class CarbonNotificationService {
   }
 
   toggleDoNotDisturb() {
-    this.doNotDisturbSubject.next(!this.doNotDisturbSubject.value);
+    const currentState = this.doNotDisturbSubject.getValue();
+    this.doNotDisturbSubject.next(!currentState);
   }
 } 

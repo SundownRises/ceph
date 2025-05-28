@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Subscription } from 'rxjs';
 
 import { Icons } from '~/app/shared/enum/icons.enum';
@@ -17,6 +16,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   icons = Icons;
   hasRunningTasks = false;
   hasNotifications = false;
+  useCarbonPanel = false;
   private subs = new Subscription();
 
   constructor(
@@ -26,6 +26,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Close both panels on init
+    this.notificationService.toggleSidebar(true);
+    this.carbonNotificationService.closeCarbonSidebar();
+
     this.subs.add(
       this.summaryService.subscribe((summary) => {
         this.hasRunningTasks = summary.executing_tasks.length > 0;
@@ -37,6 +41,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.hasNotifications = notifications.length > 0;
       })
     );
+
+    // Ensure panels don't interfere with each other
+    this.subs.add(
+      this.carbonNotificationService.isOpen$.subscribe((isOpen) => {
+        if (isOpen && !this.useCarbonPanel) {
+          this.carbonNotificationService.closeCarbonSidebar();
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -44,10 +57,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   toggleNotifications() {
-    this.notificationService.sidebarSubject.next(false);
-  }
-
-  toggleCarbonNotifications() {
-    this.carbonNotificationService.toggleCarbonSidebar();
+    if (this.useCarbonPanel) {
+      // Using Carbon panel
+      this.notificationService.toggleSidebar(true);
+      this.carbonNotificationService.toggleCarbonSidebar();
+    } else {
+      // Using default panel
+      this.carbonNotificationService.closeCarbonSidebar();
+      this.notificationService.toggleSidebar(false);
+    }
   }
 }

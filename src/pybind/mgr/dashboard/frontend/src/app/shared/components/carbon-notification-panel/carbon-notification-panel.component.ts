@@ -30,8 +30,13 @@ export class CarbonNotificationPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Reset state on init
+    this.carbonNotificationService.closeCarbonSidebar();
+    
     this.carbonNotificationService.isOpen$.subscribe(
-      (isOpen) => (this.isOpen = isOpen)
+      (isOpen) => {
+        this.isOpen = isOpen;
+      }
     );
     this.carbonNotificationService.doNotDisturb$.subscribe(
       (doNotDisturb) => (this.doNotDisturb = doNotDisturb)

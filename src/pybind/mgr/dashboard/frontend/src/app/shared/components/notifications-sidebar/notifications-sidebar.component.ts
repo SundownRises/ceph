@@ -54,6 +54,7 @@ export class NotificationsSidebarComponent implements OnInit, OnDestroy {
   last_task = '';
   mutex = new Mutex();
 
+  // Reference to the notification sidebar
   simplebar = {
     autoHide: false
   };
@@ -80,6 +81,9 @@ export class NotificationsSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Reset state on init
+    this.notificationService.toggleSidebar(true);
+    
     this.last_task = window.localStorage.getItem('last_task');
 
     const permissions = this.authStorageService.getPermissions();
@@ -102,17 +106,8 @@ export class NotificationsSidebarComponent implements OnInit, OnDestroy {
     );
 
     this.subs.add(
-      this.notificationService.sidebarSubject.subscribe((forceClose) => {
-        if (forceClose) {
-          this.isSidebarOpened = false;
-        } else {
-          this.isSidebarOpened = !this.isSidebarOpened;
-        }
-
-        window.clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-          this.cdRef.detectChanges();
-        }, 0);
+      this.notificationService.sidebarSubject.subscribe((value) => {
+        this.isSidebarOpened = !value;
       })
     );
 
@@ -167,7 +162,7 @@ export class NotificationsSidebarComponent implements OnInit, OnDestroy {
   }
 
   closeSidebar() {
-    this.isSidebarOpened = false;
+    this.notificationService.toggleSidebar(true);
   }
 
   trackByFn(index: number) {
