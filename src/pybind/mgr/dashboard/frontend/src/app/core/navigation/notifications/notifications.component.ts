@@ -16,7 +16,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   icons = Icons;
   hasRunningTasks = false;
   hasNotifications = false;
-  useCarbonPanel = false;
+  useCarbonPanel = true;
   private subs = new Subscription();
 
   constructor(

@@ -1,6 +1,7 @@
 @use './src/styles/vendor/variables' as vv;
 @use '@carbon/styles/scss/theme' as *;
 @use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/type' as *;
 
 :host {
   bottom: auto;
@@ -11,7 +12,7 @@
   transition: all 0.6s;
   width: 350px;
   z-index: 9;
-  height: 630px;
+  height: 700px;
   display: block;
 
   &.active {
@@ -20,209 +21,311 @@
 }
 
 .cds--side-panel {
-  background-color: $background;
-  border: 1px solid $border-strong-01;
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid $border-subtle;
+  border-radius: $spacing-02;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
   &__header {
     align-items: center;
-    border-bottom: 1px solid $border-subtle-01;
+    border-bottom: 1px solid $border-subtle;
     display: flex;
     justify-content: space-between;
-    padding: $spacing-03 $spacing-05;
-    background-color: $background;
-    min-height: 32px;
-  }
+    padding: $spacing-03;
+    background: #ffffff;
 
-  &__title {
-    align-items: center;
-    display: flex;
-    font-size: 1rem;
-    font-weight: 700;
-    gap: $spacing-03;
-    margin: 0;
-    color: $text-primary;
-    line-height: 1.2;
+    .cds--side-panel__title {
+      align-items: center;
+      color: #000000;
+      display: flex;
+      @include type-style('heading-compact-01');
+      gap: $spacing-03;
+      margin: 0;
 
-    svg {
-      fill: $text-primary;
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  &__close {
-    background: none;
-    border: none;
-    color: $text-primary;
-    cursor: pointer;
-    padding: $spacing-02;
-    height: 28px;
-    width: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background-color: $layer-hover;
+      svg {
+        fill: #000000;
+      }
     }
 
-    svg {
-      width: 16px;
-      height: 16px;
+    .cds--side-panel__close {
+      background: transparent;
+      border: none;
+      color: #000000;
+      cursor: pointer;
+      padding: $spacing-02;
+      border-radius: $spacing-02;
+      transition: all 0.2s;
+
+      svg {
+        fill: #000000;
+      }
+
+      &:hover {
+        background-color: $layer-selected-hover;
+      }
     }
   }
 
   &__body {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex-grow: 1;
     overflow: hidden;
   }
 
   &__controls {
     align-items: center;
-    border-bottom: 1px solid $border-subtle-01;
+    border-bottom: 1px solid $border-subtle;
     display: flex;
     justify-content: space-between;
-    padding: $spacing-03 $spacing-05;
-    color: $text-primary;
-    min-height: 40px;
+    padding: $spacing-03;
+    background: #ffffff;
+    min-height: 48px;
+    flex-wrap: wrap;
+    gap: $spacing-03;
 
     ::ng-deep {
       .cds--toggle {
         margin: 0;
         min-height: unset;
+        display: inline-flex;
+        align-items: center;
 
         &__label {
-          padding-top: 0;
-          padding-bottom: 0;
-        }
+          color: #000000;
+          display: inline-flex;
+          align-items: center;
+          gap: $spacing-03;
+          padding: 0;
+          min-height: unset;
+          margin: 0;
 
-        &__appearance {
-          margin-top: 0;
+          &-text {
+            color: #000000;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+          }
         }
       }
+    }
 
-      .cds--btn {
-        min-height: 28px;
-        padding: $spacing-02 $spacing-03;
-        font-size: 0.875rem;
-        line-height: 1.2;
+    .dismiss-all {
+      padding: $spacing-02 $spacing-03;
+      min-height: unset;
+      height: auto;
+      border-radius: $spacing-02;
+      @include type-style('body-compact-01');
+      
+      svg {
+        margin-right: $spacing-03;
       }
     }
   }
 
   &__content {
-    flex: 1;
+    flex-grow: 1;
     overflow-y: auto;
     padding: $spacing-05;
-    color: $text-primary;
-  }
-}
+    background: #ffffff;
 
-.empty-state {
-  align-items: center;
-  color: $text-secondary;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-05;
-  justify-content: center;
-  min-height: 200px;
-  text-align: center;
+    .executing-tasks {
+      margin-bottom: $spacing-06;
 
-  svg {
-    fill: currentColor;
-  }
-}
+      .section-title {
+        color: $text-primary;
+        @include type-style('heading-compact-01');
+        margin-bottom: $spacing-03;
+      }
 
-.notifications-list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-05;
-}
+      .task-item {
+        background: $layer;
+        border: 1px solid $border-subtle;
+        border-radius: $spacing-02;
+        margin-bottom: $spacing-03;
+        padding: $spacing-05;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
 
-.notification-item {
-  display: flex;
-  gap: $spacing-04;
-  padding: $spacing-04;
-  background-color: $layer-01;
-  border-radius: 4px;
-  border: 1px solid $border-subtle-01;
+        &:hover {
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          transform: translateY(-1px);
+        }
 
-  .notification-icon {
-    flex-shrink: 0;
-    
-    svg {
-      fill: $text-secondary;
-    }
-  }
+        .task-content {
+          .task-description {
+            color: $text-primary;
+            @include type-style('body-compact-01');
+            margin-bottom: $spacing-03;
+          }
 
-  .notification-content {
-    flex-grow: 1;
-    min-width: 0;
-  }
+          .task-progress {
+            background: $layer-selected;
+            border-radius: $spacing-02;
+            height: 2px;
+            overflow: hidden;
+            width: 100%;
 
-  .notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: $spacing-03;
-  }
-
-  .notification-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: $text-primary;
-    margin: 0;
-  }
-
-  .notification-dismiss {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    color: $text-secondary;
-
-    &:hover {
-      color: $text-primary;
+            .progress-indicator {
+              animation: progress 2s infinite linear;
+              background: $support-info;
+              height: 100%;
+              transform: translateX(-100%);
+              width: 50%;
+            }
+          }
+        }
+      }
     }
 
-    svg {
-      fill: currentColor;
+    .empty-state {
+      align-items: center;
+      color: $text-helper;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-05;
+      justify-content: center;
+      min-height: 200px;
+      text-align: center;
+      @include type-style('body-compact-01');
+
+      svg {
+        fill: $text-helper;
+      }
     }
-  }
 
-  .notification-message {
-    font-size: 14px;
-    color: $text-primary;
-    margin: 0 0 $spacing-03;
-  }
+    .notifications-list {
+      .notification-item {
+        background: $layer-01;
+        border: 1px solid $border-subtle;
+        border-radius: $spacing-02;
+        display: flex;
+        gap: $spacing-03;
+        margin-bottom: $spacing-05;
+        padding: $spacing-05;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
 
-  .notification-meta {
-    display: flex;
-    gap: $spacing-03;
-    font-size: 12px;
-    color: $text-secondary;
+        &:hover {
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        &.type-error {
+          border-left: 3px solid $support-error;
+          .notification-icon svg {
+            fill: $support-error;
+          }
+        }
+
+        &.type-notification,
+        &.type-info,
+        &.type-service {
+          border-left: 3px solid $support-info;
+          .notification-icon svg {
+            fill: $support-info;
+          }
+        }
+
+        &.type-checkmark,
+        &.type-success {
+          border-left: 3px solid $support-success;
+          .notification-icon svg {
+            fill: $support-success;
+          }
+        }
+
+        .notification-icon {
+          flex-shrink: 0;
+          padding-top: $spacing-02;
+        }
+
+        .notification-content {
+          flex-grow: 1;
+          min-width: 0;
+
+          .notification-header {
+            align-items: flex-start;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: $spacing-03;
+            gap: $spacing-03;
+
+            .notification-title {
+              color: $text-primary;
+              @include type-style('heading-compact-01');
+              margin: 0;
+              flex-grow: 1;
+            }
+
+            .notification-dismiss {
+              background: transparent;
+              border: none;
+              color: $text-helper;
+              cursor: pointer;
+              padding: $spacing-02;
+              border-radius: $spacing-02;
+              flex-shrink: 0;
+              height: 32px;
+              width: 32px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.2s;
+              margin: -$spacing-02;
+
+              svg {
+                fill: currentColor;
+              }
+
+              &:hover {
+                background-color: $layer-selected-hover;
+                color: $text-primary;
+              }
+            }
+          }
+
+          .notification-message {
+            color: $text-primary;
+            @include type-style('body-compact-01');
+            margin: 0 0 $spacing-05;
+            word-break: break-word;
+          }
+
+          .notification-meta {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: $spacing-03;
+            justify-content: space-between;
+
+            .notification-time {
+              color: $text-helper;
+              @include type-style('helper-text-01');
+            }
+
+            .notification-application {
+              background: $layer-selected;
+              border-radius: $spacing-06;
+              color: $text-primary;
+              padding: $spacing-02 $spacing-03;
+              @include type-style('helper-text-01');
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-// Icon colors based on notification type
-.notification-item {
-  &.type-error .notification-icon svg {
-    fill: $support-error;
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
   }
-
-  &.type-info .notification-icon svg {
-    fill: $support-info;
-  }
-
-  &.type-success .notification-icon svg {
-    fill: $support-success;
+  100% {
+    transform: translateX(100%);
   }
 }

@@ -14,7 +14,7 @@
       <ibm-toggle
         [checked]="doNotDisturb"
         (change)="toggleDoNotDisturb()"
-        labelText="Do not disturb">
+        label="Do not disturb">
       </ibm-toggle>
 
       <button
@@ -28,15 +28,30 @@
     </div>
 
     <div class="cds--side-panel__content">
+      <!-- Executing Tasks -->
+      <div class="executing-tasks" *ngIf="executingTasks.length > 0">
+        <h3 class="section-title">Running Tasks</h3>
+        <div class="task-item" *ngFor="let task of executingTasks">
+          <div class="task-content">
+            <div class="task-description">{{ task.description }}</div>
+            <div class="task-progress">
+              <div class="progress-indicator"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Empty state -->
-      <div class="empty-state" *ngIf="notifications.length === 0">
+      <div class="empty-state" *ngIf="notifications.length === 0 && executingTasks.length === 0">
         <svg cdsIcon="notification" size="32"></svg>
         <p>No notifications to display</p>
       </div>
 
       <!-- Notifications list -->
       <div class="notifications-list" *ngIf="notifications.length > 0">
-        <div class="notification-item" *ngFor="let notification of notifications; let i = index">
+        <div class="notification-item"
+             *ngFor="let notification of notifications; let i = index"
+             [ngClass]="'type-' + getNotificationIcon(notification.type)">
           <div class="notification-icon">
             <svg [cdsIcon]="getNotificationIcon(notification.type)" size="20"></svg>
           </div>
@@ -53,6 +68,18 @@
               <span class="notification-application" *ngIf="notification.application">
                 {{ notification.application }}
               </span>
+              <div class="notification-actions" *ngIf="notification.type === 1">
+                <button *ngIf="!notification.alertSilenced"
+                        class="silence-btn"
+                        (click)="silence(notification)">
+                  Silence
+                </button>
+                <button *ngIf="notification.alertSilenced"
+                        class="expire-btn"
+                        (click)="expire(notification)">
+                  Expire
+                </button>
+              </div>
             </div>
           </div>
         </div>
