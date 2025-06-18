@@ -4,54 +4,8 @@ import { ExecutingTask } from '~/app/shared/models/executing-task';
 
 @Component({
   selector: 'cd-carbon-notification-panel',
-  template: `
-    <div class="notification-panel cds--g10">
-      <cd-notification-header
-        [unreadCount]="unreadCount"
-        [doNotDisturb]="doNotDisturb"
-        [hasNotifications]="notifications.length > 0"
-        (doNotDisturbChange)="doNotDisturbChange.emit($event)"
-        (clearAll)="clearAllNotifications.emit()"
-        (close)="showCarbonPanel = false">
-      </cd-notification-header>
-
-      <cd-notification-area
-        [notifications]="notifications"
-        [executingTasks]="executingTasks"
-        (dismiss)="dismissNotification.emit($event)"
-        (retry)="retryNotification.emit($event)"
-        (toggleAlert)="toggleAlert.emit($event)"
-        (clearAll)="clearAllNotifications.emit()">
-      </cd-notification-area>
-
-      <cd-notification-footer
-        (viewAll)="viewAllNotifications.emit()"
-        (settings)="openSettings.emit()">
-      </cd-notification-footer>
-    </div>
-  `,
-  styles: [`
-    .notification-panel {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      background-color: var(--cds-layer-01);
-      color: var(--cds-text-primary);
-    }
-
-    cd-notification-area {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      background-color: var(--cds-layer-01);
-    }
-
-    cd-notification-footer {
-      padding: 1rem;
-      border-top: 1px solid var(--cds-border-subtle);
-      background-color: var(--cds-layer-01);
-    }
-  `]
+  templateUrl: './carbon-notification-panel.component.html',
+  styleUrls: ['./carbon-notification-panel.component.scss']
 })
 export class CarbonNotificationPanelComponent {
   @Input() notifications: CdNotification[] = [];

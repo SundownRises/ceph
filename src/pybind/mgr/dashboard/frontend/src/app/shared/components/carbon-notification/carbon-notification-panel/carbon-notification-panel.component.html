@@ -1,0 +1,24 @@
+<div class="notification-panel cds--g10">
+  <cd-notification-header
+    [unreadCount]="unreadCount"
+    [doNotDisturb]="doNotDisturb"
+    [hasNotifications]="notifications.length > 0"
+    (doNotDisturbChange)="doNotDisturbChange.emit($event)"
+    (clearAll)="clearAllNotifications.emit()"
+    (close)="showCarbonPanel = false">
+  </cd-notification-header>
+
+  <cd-notification-area
+    [notifications]="notifications"
+    [executingTasks]="executingTasks"
+    (dismiss)="dismissNotification.emit($event)"
+    (retry)="retryNotification.emit($event)"
+    (toggleAlert)="toggleAlert.emit($event)"
+    (clearAll)="clearAllNotifications.emit()">
+  </cd-notification-area>
+
+  <cd-notification-footer
+    (viewAll)="viewAllNotifications.emit()"
+    (settings)="openSettings.emit()">
+  </cd-notification-footer>
+</div> 

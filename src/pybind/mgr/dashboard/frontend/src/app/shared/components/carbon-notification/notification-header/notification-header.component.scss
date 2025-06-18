@@ -1,0 +1,44 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/theme';
+@use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/layout';
+
+.notification-header {
+  padding: spacing.$spacing-04;
+  background-color: theme.$layer-01;
+  border-bottom: 1px solid theme.$border-subtle-01;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-10; /* gap between title and controls */
+}
+
+.notification-title {
+  cds-header {
+    margin: 0;
+    @include type.type-style('productive-heading-01');
+    color: theme.$text-primary;
+  }
+}
+
+.notification-controls {
+  display: flex;
+  align-items: center;
+}
+
+.controls-group {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-04;
+}
+
+cds-toggle {
+  margin: 0;
+}
+
+.clear-btn {
+  min-height: spacing.$spacing-05;
+  padding: 0 spacing.$spacing-04;
+} 

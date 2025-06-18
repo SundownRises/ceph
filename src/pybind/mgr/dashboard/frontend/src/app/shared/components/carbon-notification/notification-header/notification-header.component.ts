@@ -29,49 +29,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </div>
     </div>
   `,
-  styles: [`
-    .notification-header {
-      padding: 1rem;
-      background-color: var(--cds-layer-01);
-      border-bottom: 1px solid var(--cds-border-subtle);
-    }
-
-    .notification-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem; /* gap between title and controls */
-    }
-
-    .notification-title {
-      cds-header {
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--cds-text-primary);
-      }
-    }
-
-    .notification-controls {
-      display: flex;
-      align-items: center;
-    }
-
-    .controls-group {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-
-    }
-
-    cds-toggle {
-      margin: 0;
-    }
-
-    .clear-btn {
-      min-height: 2rem;
-      padding: 0 1rem;
-    }
-  `]
+  styleUrls: ['./notification-header.component.scss']
 })
 export class NotificationHeaderComponent {
   @Input() unreadCount = 0;
