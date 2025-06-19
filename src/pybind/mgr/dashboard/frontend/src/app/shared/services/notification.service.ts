@@ -293,4 +293,18 @@ export class NotificationService {
       this.showCarbonPanel = false;
     }
   }
+
+  toggleAlert(notification: CdNotification) {
+    // Toggle the alert silenced state
+    notification.alertSilenced = !notification.alertSilenced;
+    
+    // Update the notification in the data source
+    const notifications = this.dataSource.getValue();
+    const index = notifications.findIndex(n => n === notification);
+    if (index !== -1) {
+      notifications[index] = notification;
+      this.dataSource.next(notifications);
+      localStorage.setItem(this.KEY, JSON.stringify(notifications));
+    }
+  }
 }
