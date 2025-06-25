@@ -1,0 +1,26 @@
+@use '@carbon/styles/scss/theme' as *;
+@use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/layer' as *;
+@use '@carbon/styles/scss/type' as *;
+
+.cds--toast-notification-container {
+  position: fixed;
+  top: $spacing-10; 
+  right: $spacing-04; 
+  max-width: $spacing-13 * 8; 
+  z-index: 9000; 
+  pointer-events: none;
+  
+  cds-toast {
+    pointer-events: all;
+    margin-bottom: $spacing-04;
+
+    ::ng-deep {
+      .cds--toast-notification__title,
+      .cds--toast-notification__subtitle,
+      .cds--toast-notification__caption {
+        color: $text-primary;
+      }
+    }
+  }
+}

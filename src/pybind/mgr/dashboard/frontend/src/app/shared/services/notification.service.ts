@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import _ from 'lodash';
-import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { NotificationType } from '../enum/notification-type.enum';
@@ -10,27 +9,40 @@ import { FinishedTask } from '../models/finished-task';
 import { CdDatePipe } from '../pipes/cd-date.pipe';
 import { TaskMessageService } from './task-message.service';
 
+export interface ActiveToast {
+  id: string;
+  title: string;
+  message: string;
+  caption: string;
+  carbonType: string;
+  lowContrast: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   private hideToasties = false;
 
-  // Data observable
+  // Data observable for saved notifications
   private dataSource = new BehaviorSubject<CdNotification[]>([]);
   data$ = this.dataSource.asObservable();
+
+  // Active toasts observable
+  private activeToastsSource = new BehaviorSubject<ActiveToast[]>([]);
+  activeToasts$ = this.activeToastsSource.asObservable();
 
   // Sidebar observable
   sidebarSubject = new Subject();
 
   private queued: CdNotificationConfig[] = [];
   private queuedTimeoutId: number;
+  private activeToasts: ActiveToast[] = [];
   KEY = 'cdNotifications';
 
   constructor(
-    public toastr: ToastrService,
     private taskMessageService: TaskMessageService,
-    private cdDatePipe: CdDatePipe
+    private cdDatePipe: CdDatePipe,
   ) {
     const stringNotifications = localStorage.getItem(this.KEY);
     let notifications: CdNotification[] = [];
@@ -93,7 +105,7 @@ export class NotificationService {
     type: NotificationType,
     title: string,
     message?: string,
-    options?: any | IndividualConfig,
+    options?: any,
     application?: string
   ): number;
   show(config: CdNotificationConfig | (() => CdNotificationConfig)): number;
@@ -101,7 +113,7 @@ export class NotificationService {
     arg: NotificationType | CdNotificationConfig | (() => CdNotificationConfig),
     title?: string,
     message?: string,
-    options?: any | IndividualConfig,
+    options?: any,
     application?: string
   ): number {
     return window.setTimeout(() => {
@@ -115,7 +127,7 @@ export class NotificationService {
           arg as NotificationType,
           title,
           message,
-          options,
+          options || { lowContrast: true },
           application
         );
       }
@@ -171,12 +183,56 @@ export class NotificationService {
     if (this.hideToasties) {
       return;
     }
-    this.toastr[['error', 'info', 'success'][notification.type]](
-      (notification.message ? notification.message + '<br>' : '') +
-        this.renderTimeAndApplicationHtml(notification),
-      notification.title,
-      notification.options
-    );
+
+    // Map notification types to Carbon types
+    const carbonType = this.mapNotificationTypeToCarbon(notification.type);
+    
+    // Get lowContrast setting from options, default to false
+    const lowContrast = notification.options?.lowContrast || false;
+    
+    // Create toast object
+    const toast: ActiveToast = {
+      id: _.uniqueId('toast-'),
+      title: notification.title,
+      message: notification.message || '',
+      caption: this.renderTimeAndApplicationHtml(notification),
+      carbonType: carbonType,
+      lowContrast: lowContrast
+    };
+    // Add to active toasts
+    this.activeToasts = [...this.activeToasts, toast];
+    this.activeToastsSource.next(this.activeToasts);
+    // Auto remove after timeout if specified, or default to 5 seconds
+    const timeOut = notification.options?.timeOut || 5000;
+    setTimeout(() => {
+      this.removeToast(toast.id);
+    }, timeOut);
+  }
+
+  /**
+   * Map notification types to Carbon types
+   */
+  private mapNotificationTypeToCarbon(type: NotificationType): string {
+    switch (type) {
+      case NotificationType.error:
+        return 'error';
+      case NotificationType.info:
+        return 'info';
+      case NotificationType.success:
+        return 'success';
+      case NotificationType.warning:
+        return 'warning';
+      default:
+        return 'info';
+    }
+  }
+
+  /**
+   * Remove a toast by ID
+   */
+  removeToast(toastId: string) {
+    this.activeToasts = this.activeToasts.filter((t) => t.id !== toastId);
+    this.activeToastsSource.next(this.activeToasts);
   }
 
   renderTimeAndApplicationHtml(notification: CdNotification): string {
@@ -233,5 +289,13 @@ export class NotificationService {
 
   toggleSidebar(forceClose = false) {
     this.sidebarSubject.next(forceClose);
+  }
+
+  /**
+   * Clear all active toasts
+   */
+  clearAllToasts() {
+    this.activeToasts = [];
+    this.activeToastsSource.next(this.activeToasts);
   }
 }

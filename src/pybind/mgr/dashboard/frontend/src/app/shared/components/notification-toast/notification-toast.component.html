@@ -1,0 +1,14 @@
+<div class="cds--toast-notification-container">
+  <cds-toast
+    *ngFor="let toast of activeToasts"
+    [notificationObj]="{
+      type: toast.carbonType,
+      title: toast.title,
+      subtitle: toast.message,
+      caption: toast.caption,
+      lowContrast: toast.lowContrast,
+      showClose: true
+    }"
+    (close)="onToastClose(toast.id)">
+  </cds-toast>
+</div> 
