@@ -199,8 +199,8 @@ export class NotificationService {
       carbonType: carbonType,
       lowContrast: lowContrast
     };
-    // Add to active toasts
-    this.activeToasts = [...this.activeToasts, toast];
+    // Add new toast to the beginning of the array
+    this.activeToasts = [toast, ...this.activeToasts];
     this.activeToastsSource.next(this.activeToasts);
     // Auto remove after timeout if specified, or default to 5 seconds
     const timeOut = notification.options?.timeOut || 5000;
